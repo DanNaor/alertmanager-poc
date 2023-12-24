@@ -1,0 +1,19 @@
+{
+  "name": "dans-repos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "triggerAlertViaNode": "node src/nodeAlert",
+    "triggerAlertViaGrafana": " node src/addDataQuest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@questdb/nodejs-client": "^2.1.0",
+    "axios": "^1.6.2",
+    "moment": "^2.29.4",
+    "node-fetch": "^3.3.2"
+  }
+}

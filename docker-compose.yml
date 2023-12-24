@@ -1,0 +1,56 @@
+  version: "3"
+  services:
+    grafana:
+      user: root
+      image: grafana/grafana:10.2.2
+      ports:
+        - 3000:3000
+      restart: unless-stopped
+      volumes:
+        - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+        - grafana-data:/var/lib/grafana
+      networks:
+        - local_br
+
+    alertmanager:
+      image: prom/alertmanager:v0.26.0
+      restart: unless-stopped
+      hostname: alertmanager
+      ports:
+        - 9093:9093
+      volumes:
+        - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+        - alertmanager-data:/data
+      command: --config.file=/etc/alertmanager/alertmanager.yml --log.level=debug
+      networks:
+        - local_br
+
+    dozzle:
+      restart: unless-stopped
+      image: amir20/dozzle:latest
+      ports:
+        - 9999:8080
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+        - local_br
+    
+    questdb:
+      container_name: questy
+      image: questdb/questdb:7.3.7
+      ports:
+        - 9000:9000
+        - 9009:9009
+        - 8812:8812
+      volumes:
+        - ./questDb/data:/var/lib/questdb
+      networks:
+        - local_br
+
+  volumes:
+    grafana-data: null
+    alertmanager-data: null
+
+  networks:
+    local_br:
+      driver: bridge

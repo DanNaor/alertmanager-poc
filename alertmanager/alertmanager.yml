@@ -1,0 +1,13 @@
+global:
+  resolve_timeout: 1s
+route:
+  receiver: default receiver
+  continue: false
+receivers:
+  - name: default receiver
+    webhook_configs:
+      - send_resolved: true
+        http_config:
+          follow_redirects: true
+        url: http://alertmanager:9093/#/api/v1/alerts
+        max_alerts: 1
